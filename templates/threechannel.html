@@ -18,6 +18,8 @@
 </head>
 
 <body>
+   
+   
     <div class="sidebar">
        <a href="home.html">
         <div class="logo">
@@ -43,16 +45,29 @@
         </div>
         <ul id="menulist">
             <a href="threechannel.html">
-                <li class="menu-list active"><span class="menu-icon"><img src="../static/images/3-ch.svg" alt="3 channel-icon"
-                            class="img-fluid"></span><span class="text-menu">3 Channel</span></li>
+                <li class="menu-list active">
+                    
+                        <span class="menu-icon"><img src="../static/images/3-ch.svg" alt="3 channel-icon"
+                            class="img-fluid"></span><span class="text-menu">3 Channel</span>
+                    </form>
+                </li>
             </a>
             <a href="fourchannel.html">
-                <li class="menu-list"><span class="menu-icon"><img src="../static/images/4-channel.svg"
-                            alt="4 channel-icon" class="img-fluid"></span><span class="text-menu">4 Channel</span></li>
-            </a>
+                <li class="menu-list">
+                    <form action="">
+                    <span class="menu-icon"><img src="../static/images/4-channel.svg"
+                            alt="4 channel-icon" class="img-fluid"></span><span class="text-menu">4 Channel</span>
+                        </form>
+                        </li>
+                           
+                        </a>
             <a href="wta.html">
-                <li class="menu-list"><span class="menu-icon"><img src="../static/images/wta.svg" alt="wta-icon"
-                            class="img-fluid"></span><span class="text-menu">WTA</span></li>
+                <li class="menu-list">
+                    <form action="">
+                    <span class="menu-icon"><img src="../static/images/wta.svg" alt="wta-icon"
+                            class="img-fluid"></span><span class="text-menu">WTA</span>
+                    </form>
+                        </li>
             </a>
         </ul>
     </div>
@@ -106,10 +121,14 @@
                                 </lord-icon><span>Update</span></button>
                         </div>
                     </div>
-                    <div class="serach-list" id="searchList">
+                  
+                    {% for device_id, device_info in device_data.items() %}
+                    <div class="device-info" id="info_{{ device_id }}" style="display: none;">
+                        
                         <div class="row my-4">
                             <div class="col-md-7">
                                 <h5 class="information-title">Device Information</h5>
+                                
                                 <div class="device-information-con">
                                     <div class="online-option">
                                         <div class="online">
@@ -125,23 +144,26 @@
                                         <tbody>
                                             <tr class="table-row">
                                                 <td>User Name</td>
-                                                <td>Admin</td>
+                                                <td>{{ device_info['username'] }}</td>
                                             </tr>
                                             <tr class="table-row">
                                                 <td>Activation Date</td>
-                                                <td>23/07/2023</td>
+                                                <td>{{ device_info['activation_date'] }}</td>
                                             </tr>
                                             <tr class="table-row">
                                                 <td>Disconnected Time</td>
-                                                <td>09.12</td>
+
+                                                {% for key, time_info in device_info['disconnected_time'].items() %}
+                                               <td>{{ time_info['date'] }} {{ time_info['time'] }}</td>
+                                               {% endfor %}
                                             </tr>
                                             <tr class="table-row">
                                                 <td>IP Address</td>
-                                                <td>192.168.1.18</td>
+                                                <td>{{ device_info['ip'] }}</td>
                                             </tr>
                                             <tr class="table-row">
                                                 <td>WiFi Address</td>
-                                                <td>117.247.181.119</td>
+                                                <td>{{ device_info['wifi_address'] }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -149,69 +171,46 @@
                             </div>
                             <div class="col-md-5">
                                 <h5 class="information-title">Firmware Information</h5>
-                                <div class="frimware-information-con">
+                          
+                               <div class="frimware-information-con">
+                                
+                                
                                     <table class="table table-li">
-                                        <tbody class="firm-ware-bot">
-                                            <tr class="table-row">
-                                                <td>File Name</td>
-                                                <td>Charte1</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Update Date</td>
-                                                <td>02/09/2023</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Version</td>
-                                                <td>1.2.23</td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody class="firm-ware-bot">
-                                            <tr class="table-row">
-                                                <td>File Name</td>
-                                                <td>Charte1</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Update Date</td>
-                                                <td>02/09/2023</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Version</td>
-                                                <td>1.2.23</td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody class="firm-ware-bot">
-                                            <tr class="table-row">
-                                                <td>File Name</td>
-                                                <td>Charte1</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Update Date</td>
-                                                <td>02/09/2023</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Version</td>
-                                                <td>1.2.23</td>
-                                            </tr>
-                                        </tbody>
-                                        <tbody class="firm-ware-bot">
-                                            <tr class="table-row">
-                                                <td>File Name</td>
-                                                <td>Charte1</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Update Date</td>
-                                                <td>02/09/2023</td>
-                                            </tr>
-                                            <tr class="table-row">
-                                                <td>Version</td>
-                                                <td>1.2.23</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        {% if 'firmware' in device_info %}
+                                        {% for firmware_id, firmware_info in device_info['firmware'].items() %}
+                                            <tbody class="firm-ware-bot">
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">File Name</td>
+                                                    <td class="col-md-6">{{ firmware_info['filename'] }}</td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">Update Date</td>
+                                                    <td class="col-md-6">{{ firmware_info['upload_date'] }}</td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">Version</td>
+                                                    <td class="col-md-6">{{ firmware_info['version'] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        {% endfor %}
+                                    
+                                {% else %}
+                                    <p>No firmware information available.</p>
+                                    {% endif %}
+                                </table>
+                            </div>
+                               
                             </div>
                         </div>
+                        
                     </div>
+                    {% endfor %}
+                    
+
+                    {% if device_data %}
                     <table class="table text-center my-4">
                         <thead>
                             <tr class="head-table">
@@ -221,28 +220,22 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        {% for device_id, device_info in device_data.items() %}
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>Suresh</td>
-                                <td>10/08/2023</td>
-                                <td><a href="#searchList"><button class="view-btn" id="view">View</button></a></td>
+                                <td>{{ device_info['username'] }}</td>
+                                <td>{{ device_info['activation_date'] }}</td>
+                                
+                                <td><a href="#searchList"><button class="view-btn view"   id="view_{{device_id }}">View</button></a></td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Ramesh</td>
-                                <td>23/04/2023</td>
-                                <td><button class="view-btn">View</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Ram</td>
-                                <td>20/05/2023</td>
-                                <td><button class="view-btn">View</button></td>
-                            </tr>
+                            
                         </tbody>
-
+                        
+                        {% endfor %}
                     </table>
+
+                    {% endif %}
                 </div>
 
             </div>
@@ -261,9 +254,9 @@
     <!-- fontawesome fonts End -->
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <!-- scripts End -->
-    <script>
-        const searchList = document.getElementById('searchList')
-        const view = document.getElementById('view')
+    <!-- <script>
+        const searchList = document.querySelector('.serach-list')
+        const view = document.querySelector('.view')
 
         view.addEventListener('click', () => {
             if (searchList.style.display == 'none') {
@@ -273,7 +266,35 @@
                 searchList.style.display = 'none'
             }
         })
-    </script>
+    </script> -->
+   
+   <script>
+    // Add an event listener to each "View" button
+    {% for device_id, device_info in device_data.items() %}
+    const viewButton_{{ device_id }} = document.getElementById('view_{{ device_id }}');
+    const deviceInfo_{{ device_id }} = document.getElementById('info_{{ device_id }}');
+    
+    viewButton_{{ device_id }}.addEventListener('click', () => {
+        if (deviceInfo_{{ device_id }}.style.display === 'none' || !deviceInfo_{{ device_id }}.style.display) {
+            // Hide all device information sections
+            hideAllDeviceInfo();
+            // Display the clicked device's information
+            deviceInfo_{{ device_id }}.style.display = 'block';
+        } else {
+            // Hide the clicked device's information
+            deviceInfo_{{ device_id }}.style.display = 'none';
+        }
+    });
+    {% endfor %}
+    
+    // Function to hide all device information sections
+    function hideAllDeviceInfo() {
+        {% for device_id, device_info in device_data.items() %}
+        deviceInfo_{{ device_id }}.style.display = 'none';
+        {% endfor %}
+    }
+</script>
+    
 </body>
 
 </html>
