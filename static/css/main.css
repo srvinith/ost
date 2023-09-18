@@ -250,10 +250,10 @@ body {
 .circle-on {
     background-color: #27AE60;
 }
-
+/* 
 .offline {
-    display: none;
-}
+    display:block;
+} */
 
 .table-row td {
     border: none !important;

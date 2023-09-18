@@ -40,19 +40,39 @@
              </div>
          </div>
          <ul id="menulist">
-             <a href="threechannel.html">
-                 <li class="menu-list "><span class="menu-icon"><img src="../static/images/3-ch.svg" alt="3 channel-icon"
-                             class="img-fluid"></span><span class="text-menu">3 Channel</span></li>
-             </a>
-             <a href="fourchannel.html">
-                 <li class="menu-list "><span class="menu-icon"><img src="../static/images/4-channel.svg"
-                             alt="4 channel-icon" class="img-fluid"></span><span class="text-menu">4 Channel</span></li>
-             </a>
-             <a href="wta.html">
-                 <li class="menu-list active"><span class="menu-icon"><img src="../static/images/wta.svg" alt="wta-icon"
-                             class="img-fluid"></span><span class="text-menu">WTA</span></li>
-             </a>
-         </ul>
+      
+            <li class="menu-list">
+                <form action="/filter_devices"  method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="product_id_prefix" value="3chfb">
+                  <button class="btn-menu">
+                  <span class="menu-icon"><img src="../static/images/3-ch.svg" alt="3 channel-icon"
+                    class="img-fluid"></span><span class="text-menu">3 Channel</span>
+                  </button>
+                </form>    
+                    </li>
+      
+       
+            <li class="menu-list">
+                <form action="/filter_devices"  method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="product_id_prefix" value="4chfb">
+                  <button class="btn-menu">
+                <span class="menu-icon"><img src="../static/images/4-channel.svg"
+                        alt="4 channel-icon" class="img-fluid"></span><span class="text-menu">4 Channel</span>
+                    </button>
+                </form>
+                    </li>
+    
+            <li class="menu-list">
+                <form action="/filter_devices"  method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="product_id_prefix" value="wta">
+                  <button class="btn-menu">
+                <span class="menu-icon"><img src="../static/images/wta.svg" alt="wta-icon"
+                        class="img-fluid"></span><span class="text-menu">WTA</span>
+                    </button>
+                </form>
+                    </li>
+        
+    </ul>
      </div>
    
     <!-- enquery form start -->
@@ -63,18 +83,25 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <center>
             <h5>Firmware File Upload</h5>
-           <form action="">
-            <div class="product-ids">
-                <input type="text" placeholder="Product Id" class="">
-            </div>
-           
-            <div class="product-ids">
-                <label for="file-upload" class="file-lable"><p>Upload File</p><p><i class="fa-solid fa-file"></i></p></label>
-                <input type="file" placeholder="uploade file" class="file-inp" id="file-upload">
-            </div>
-            <button type="submit" class="btn btn-primary">Upload</button>
-           </form>
-          </center>
+            <form action="/upload_firmware" method="POST" enctype="multipart/form-data">
+                <div class="product-ids">
+                    <input type="text" placeholder="Product Id" id="product_id" name="product_id">
+                </div>
+
+                <div class="product-ids">
+                    <label for="file-upload" class="file-lable">
+                        <p></p>
+                        <p><lord-icon src="https://cdn.lordicon.com/kulwmpzs.json" trigger="hover"
+                                colors="primary:#757070" style="width:30px;height:30px">
+                            </lord-icon></p>
+                    </label>
+
+                    <input type="file" name="firmware_file" placeholder="uploade file" class="file-inp"
+                        id="file-upload">
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </center>
         </div>
       </div>
     </div>
@@ -87,15 +114,14 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-10">
-                <div class="top-search-bar">
-                    <input type="text" placeholder="Product Id">
-                    <button><lord-icon
-                        src="https://cdn.lordicon.com/xfftupfv.json"
-                        trigger="hover"
-                        colors="primary:#757070"
-                        style="width:30px;height:30px">
-                    </lord-icon></button>
-                </div>
+                <form action="/" method="POST" enctype="multipart/form-data">
+                    <div class="top-search-bar">
+                        <input type="text" placeholder="Product Id" id="product_id" name="product_id">
+                        <button type="submit"><lord-icon src="https://cdn.lordicon.com/xfftupfv.json"
+                                trigger="hover" colors="primary:#757070" style="width:30px;height:30px">
+                            </lord-icon></button>
+                    </div>
+                </form>
                 <div class="row">
                     <div class="updateBtn" >
                         <button data-bs-toggle="modal" data-bs-target="#exampleModal"><lord-icon
@@ -106,143 +132,118 @@
                         </lord-icon><span>Update</span></button>
                     </div>
                 </div>
-                <div class="serach-list" id="searchList">
-                    <div class="row my-4">
-                        <div class="col-md-7">
-                            <h5 class="information-title">Device  Information</h5>
-                            <div class="device-information-con">
-                                <div class="online-option">
-                                    <div class="online">
-                                        <p class="circle circle-on"></p>
-                                        <p class="online-text on-text">Online</p>
+                {% for device_id, device_info in device_data.items() %}
+                    <div class="device-info" id="info_{{ device_id }}" style="display: none;">
+                        
+                        <div class="row my-4">
+                            <div class="col-md-7">
+                                <h5 class="information-title">Device Information</h5>
+                                
+                                <div class="device-information-con">
+                                    <div class="online-option">
+                                        <div class="online">
+                                            <p class="circle circle-on"></p>
+                                            <p class="online-text on-text">Online</p>
+                                        </div>
+                                        <div class="online offline">
+                                            <p class="circle circle-off"></p>
+                                            <p class="online-text off-text">Online</p>
+                                        </div>
                                     </div>
-                                    <div class="online offline">
-                                        <p class="circle circle-off"></p>
-                                        <p class="online-text off-text">Online</p>
-                                    </div>
-                                </div>
-                                <table class="table table-li">
-                                    <tbody>
-                                        <tr class="table-row">
-                                            <td>User Name</td>
-                                            <td>Admin</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Activation Date</td>
-                                            <td>23/07/2023</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Disconnected Time</td>
-                                            <td>09.12</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>IP Address</td>
-                                            <td>192.168.1.18</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>WiFi Address</td>
-                                            <td>117.247.181.119</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <h5 class="information-title">Firmware Information</h5>
-                            <div class="frimware-information-con">
-                                <table class="table table-li">
-                                    <tbody class="firm-ware-bot">
-                                        <tr class="table-row">
-                                            <td>File Name</td>
-                                            <td>Charte1</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Update Date</td>
-                                            <td>02/09/2023</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Version</td>
-                                            <td>1.2.23</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="firm-ware-bot">
-                                        <tr class="table-row">
-                                            <td>File Name</td>
-                                            <td>Charte1</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Update Date</td>
-                                            <td>02/09/2023</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Version</td>
-                                            <td>1.2.23</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="firm-ware-bot">
-                                        <tr class="table-row">
-                                            <td>File Name</td>
-                                            <td>Charte1</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Update Date</td>
-                                            <td>02/09/2023</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Version</td>
-                                            <td>1.2.23</td>
-                                        </tr>
-                                    </tbody>
-                                    <tbody class="firm-ware-bot">
-                                        <tr class="table-row">
-                                            <td>File Name</td>
-                                            <td>Charte1</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Update Date</td>
-                                            <td>02/09/2023</td>
-                                        </tr>
-                                        <tr class="table-row">
-                                            <td>Version</td>
-                                            <td>1.2.23</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <table class="table text-center my-4">
-                    <thead>
-                        <tr class="head-table">
-                            <th>S.No</th>
-                            <th>Client Name</th>
-                            <th>Activation Date</th> 
-                            <th>Action</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Suresh</td>
-                            <td>10/08/2023</td>
-                            <td><a href="#searchList"><button class="view-btn" id="view">View</button></a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Ramesh</td>
-                            <td>23/04/2023</td>
-                            <td><button class="view-btn">View</button></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Ram</td>
-                            <td>20/05/2023</td>
-                            <td><button class="view-btn">View</button></td>
-                        </tr>
-                    </tbody>
+                                    <table class="table table-li">
+                                        <tbody>
+                                            <tr class="table-row">
+                                                <td>User Name</td>
+                                                <td>{{ device_info['username'] }}</td>
+                                            </tr>
+                                            <tr class="table-row">
+                                                <td>Activation Date</td>
+                                                <td>{{ device_info['activation_date'] }}</td>
+                                            </tr>
+                                            <tr class="table-row">
+                                                <td>Disconnected Time</td>
 
-                </table>
+                                                {% for key, time_info in device_info['disconnected_time'].items() %}
+                                               <td>{{ time_info['date'] }} {{ time_info['time'] }}</td>
+                                               {% endfor %}
+                                            </tr>
+                                            <tr class="table-row">
+                                                <td>IP Address</td>
+                                                <td>{{ device_info['ip'] }}</td>
+                                            </tr>
+                                            <tr class="table-row">
+                                                <td>WiFi Address</td>
+                                                <td>{{ device_info['wifi_address'] }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <h5 class="information-title">Firmware Information</h5>
+                          
+                               <div class="frimware-information-con">
+                                
+                                
+                                    <table class="table table-li">
+                                        {% if 'firmware' in device_info %}
+                                        {% for firmware_id, firmware_info in device_info['firmware'].items() %}
+                                            <tbody class="firm-ware-bot">
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">File Name</td>
+                                                    <td class="col-md-6">{{ firmware_info['filename'] }}</td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">Update Date</td>
+                                                    <td class="col-md-6">{{ firmware_info['upload_date'] }}</td>
+                                                </tr>
+                                                <tr class="row">
+                                                    <td class="col-md-1"></td>
+                                                    <td class="col-md-5">Version</td>
+                                                    <td class="col-md-6">{{ firmware_info['version'] }}</td>
+                                                </tr>
+                                            </tbody>
+                                        {% endfor %}
+                                    
+                                {% else %}
+                                    <p>No firmware information available.</p>
+                                    {% endif %}
+                                </table>
+                            </div>
+                               
+                            </div>
+                        </div>
+                        
+                    </div>
+                    {% endfor %}
+                    {% if device_data %}
+                    <table class="table text-center my-4">
+                        <thead>
+                            <tr class="head-table">
+                                <th>S.No</th>
+                                <th>Client Name</th>
+                                <th>Activation Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        {% for device_id, device_info in device_data.items() %}
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>{{ device_info['username'] }}</td>
+                                <td>{{ device_info['activation_date'] }}</td>
+                                
+                                <td><a href="#searchList"><button class="view-btn view"   id="view_{{device_id }}">View</button></a></td>
+                            </tr>
+                            
+                        </tbody>
+                        
+                        {% endfor %}
+                    </table>
+
+                    {% endif %}
             </div>
     
         </div>
@@ -261,7 +262,7 @@
     <!-- fontawesome fonts End -->
     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
     <!-- scripts End -->
-    <script>
+    <!-- <script>
         const searchList = document.getElementById('searchList')
         const view = document.getElementById('view')
 
@@ -273,6 +274,32 @@
                 searchList.style.display = 'none'
             }
         })
+    </script> -->
+    <script>
+        // Add an event listener to each "View" button
+        {% for device_id, device_info in device_data.items() %}
+        const viewButton_{{ device_id }} = document.getElementById('view_{{ device_id }}');
+        const deviceInfo_{{ device_id }} = document.getElementById('info_{{ device_id }}');
+        
+        viewButton_{{ device_id }}.addEventListener('click', () => {
+            if (deviceInfo_{{ device_id }}.style.display === 'none' || !deviceInfo_{{ device_id }}.style.display) {
+                // Hide all device information sections
+                hideAllDeviceInfo();
+                // Display the clicked device's information
+                deviceInfo_{{ device_id }}.style.display = 'block';
+            } else {
+                // Hide the clicked device's information
+                deviceInfo_{{ device_id }}.style.display = 'none';
+            }
+        });
+        {% endfor %}
+        
+        // Function to hide all device information sections
+        function hideAllDeviceInfo() {
+            {% for device_id, device_info in device_data.items() %}
+            deviceInfo_{{ device_id }}.style.display = 'none';
+            {% endfor %}
+        }
     </script>
 </body>
 </html>

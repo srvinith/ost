@@ -25,13 +25,14 @@ auth = firebase.auth()
 #Define the directory where firmware files will be stored
 firmware_directory = '/firmware/3chfb'
 
-
+app.jinja_env.globals['cache'] = False
 # ...
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     error_message = None
     device_data = {}
+    online_status = "Online"  # Default status
 
     if request.method == 'POST':
         product_id = request.form.get('product_id')
@@ -44,8 +45,16 @@ def home():
 
             if not device_data:
                 error_message = "Product ID not found."
+            else:
+                # Check if disconnected_time is available and not empty
+                disconnected_time = device_data.get('disconnected_time', {})
+                if disconnected_time:
+                    # Check if disconnected_time is not an empty string
+                    if any(info.get('date') and info.get('time') and info.get('date') != '' and info.get('time') != '' for info in disconnected_time.values()):
+                        online_status = "Offline"
 
-    return render_template('home.html', device_data=device_data, error_message=error_message)
+    return render_template('home.html', device_data=device_data, error_message=error_message, online_status=online_status)
+
 
 @app.route('/upload_firmware', methods=['POST'])
 def upload_firmware():
@@ -75,7 +84,7 @@ def upload_firmware():
 
     return redirect(url_for('home'))
 
-@app.route('/filter_devices', methods=['POST','GET'])
+@app.route('/filter_devices', methods=['POST', 'GET'])
 def filter_devices():
     product_id_prefix = request.form.get('product_id_prefix')
 
@@ -90,12 +99,19 @@ def filter_devices():
         for device_id, device_data in devices.items():
             if device_id.startswith(product_id_prefix):
                 filtered_devices[device_id] = device_data
-              
-    print("filter",filtered_devices)
+
     if filtered_devices:
-        return render_template('threechannel.html', device_data=filtered_devices)
+        if product_id_prefix == '3chfb':
+            return render_template('threechannel.html', device_data=filtered_devices)
+        elif product_id_prefix == '4chfb':
+            return render_template('fourchannel.html', device_data=filtered_devices)
+        elif product_id_prefix == 'wta':
+            return render_template('wta.html', device_data=filtered_devices)
+        else:
+            return render_template('home.html', error_message="Unknown product ID prefix")
     else:
-        return render_template('threechannel.html', error_message="No devices found for the selected module")
+        return render_template('home.html', error_message="No devices found for the selected module")
+
 
 
 
