@@ -241,6 +241,7 @@
                     
 
                     {% if device_data %}
+                    
                     <table class="table text-center my-4">
                         <thead>
                             <tr class="head-table">
@@ -250,19 +251,25 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        {% for device_id, device_info in device_data.items() %}
+                        
+                        
                         <tbody>
+                            {% set counter = 1 %}
+                           
+                            {% for device_id, device_info in device_data.items() %}
                             <tr>
-                                <td>1</td>
+                                <td>{{ counter }}</td>
+                                
                                 <td>{{ device_info['username'] }}</td>
                                 <td>{{ device_info['activation_date'] }}</td>
                                 
                                 <td><a href="#searchList"><button class="view-btn view"   id="view_{{device_id }}">View</button></a></td>
                             </tr>
+                            {% set counter = counter + 1 %}
                             
+                            {% endfor %} 
                         </tbody>
                         
-                        {% endfor %}
                     </table>
 
                     {% endif %}
